@@ -1,0 +1,38 @@
+models:
+  - name: fct_events
+    description: This model contains information on events from users
+    columns:
+
+      - name: session_id
+        description: '{{ doc("bingeflix_column_session_id") }}'
+        meta:
+          priority: high
+        data_tests:
+          - not_null
+
+      - name: created_at
+        description: When the event ocurred
+        data_tests:
+          - not_null
+
+      - name: user_id
+        description: '{{ doc("bingeflix_column_user_id") }}'
+        meta:
+          priority: high
+        data_tests:
+          - not_null
+
+      - name: event_name
+        description: The type of event that ocurred
+        meta:
+          priority: high
+        data_tests:
+          - not_null
+  
+      - name: event_id
+        description: Unique Identifier for the event
+        meta:
+          priority: high
+        data_tests:
+          - not_null
+          - unique

@@ -12,6 +12,8 @@ The unique identifier of the Bingeflix user. A user is created when...
 The unique identifier for the subscription.
 {% enddocs %}
 
+## Subscription Plans
+
 {% docs bingeflix_column_subscription_plan_id %}
 The unique identifier of the subscription plan.
 {% enddocs %}
