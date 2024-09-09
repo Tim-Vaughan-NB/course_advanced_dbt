@@ -28,7 +28,7 @@ models:
           priority: high
         data_tests:
           - not_null
-  
+
       - name: event_id
         description: Unique Identifier for the event
         meta:

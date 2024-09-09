@@ -1,0 +1,24 @@
+version: 2
+
+macros:
+  - name: lag_over_column
+    description: Uses LAG to coalesce previous data based on paramaters or input with False (or whatever coalesce value desired)
+    arguments:
+      - name: column_name
+        type: string
+        description: The name of the column that needs to be lagged.
+      - name: first_partition_by
+        type: string
+        description: The first partition column.
+      - name: second_partition_py
+        type: string
+        description: The second partition column
+      - name: order_by
+        type: string
+        description: Ordering column
+      - name: coalesce_value
+        type: string
+        description: Value that should be used instead if no lag value is found
+      - name: new_name_column
+        type: string
+        description: Name of the column that will be created

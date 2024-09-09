@@ -151,15 +151,23 @@ mrr_with_changes AS (
     SELECT
         *,
 
-        COALESCE(
-            LAG(is_subscribed_current_month) OVER (PARTITION BY user_id, subscription_id ORDER BY date_month),
-            FALSE
-        ) AS is_subscribed_previous_month,
+{{        lag_over_column(
+            column_name='is_subscribed_current_month',
+            first_partition_by='user_id',
+            second_partition_by='subscription_id',
+            order_by='date_month',
+            coalesce_value='FALSE',
+            new_column_name='is_subscribed_previous_month')}},
 
-        COALESCE(
-            LAG(mrr) OVER (PARTITION BY user_id, subscription_id ORDER BY date_month),
-            0.0
-        ) AS previous_month_mrr_amount,
+{{        lag_over_column(
+            column_name='mrr',
+            first_partition_by='user_id',
+            second_partition_by='subscription_id',
+            order_by='date_month',
+            coalesce_value='0.0',
+            new_column_name='previous_month_mrr_amount')}},
+
+
 
         mrr - previous_month_mrr_amount AS mrr_change
     FROM
@@ -179,7 +187,6 @@ final AS (
         mrr_change,
         LEAST(mrr, previous_month_mrr_amount) AS retained_mrr_amount,
         previous_month_mrr_amount,
-
         CASE
             WHEN is_first_subscription_month THEN 'new'
             WHEN NOT(is_subscribed_current_month) AND is_subscribed_previous_month THEN 'churn'
