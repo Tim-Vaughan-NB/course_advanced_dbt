@@ -151,21 +151,21 @@ mrr_with_changes AS (
     SELECT
         *,
 
-{{        lag_over_column(
+        {{ lag_over_column(
             column_name='is_subscribed_current_month',
             first_partition_by='user_id',
             second_partition_by='subscription_id',
             order_by='date_month',
             coalesce_value='FALSE',
-            new_column_name='is_subscribed_previous_month')}},
+            new_column_name='is_subscribed_previous_month') }},
 
-{{        lag_over_column(
+        {{ lag_over_column(
             column_name='mrr',
             first_partition_by='user_id',
             second_partition_by='subscription_id',
             order_by='date_month',
             coalesce_value='0.0',
-            new_column_name='previous_month_mrr_amount')}},
+            new_column_name='previous_month_mrr_amount') }},
 
 
 
@@ -187,6 +187,13 @@ final AS (
         mrr_change,
         LEAST(mrr, previous_month_mrr_amount) AS retained_mrr_amount,
         previous_month_mrr_amount,
+        {{ rolling_aggregation_n_periods(
+            column_name='mrr',
+            first_partition_by='mrr_with_changes.user_id',
+            second_partition_by='mrr_with_changes.subscription_id',
+            order_by='date_month',
+            periods=3
+        ) }},
         CASE
             WHEN is_first_subscription_month THEN 'new'
             WHEN NOT(is_subscribed_current_month) AND is_subscribed_previous_month THEN 'churn'

@@ -48,3 +48,6 @@ models:
 
       - name: month_retained_number
         description: The number of months the subscription has been retained since it was started (first month = 0).
+
+      - name: avg_3_periods_mrr
+        description: Rolling average of last 3 month mrr
