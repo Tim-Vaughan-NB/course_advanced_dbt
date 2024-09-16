@@ -48,3 +48,20 @@
 
 
 ### Project 2
+
+### Project 3
+
+1. **Testing Scope Limited to STG Level**
+   - **Purpose**: dbt testing is now scoped to only occur at the staging (`stg`) level for models: `dim_users`, `fct_events`, and `dim_subscriptions`.
+   - **Details**: This change ensures testing is focused on critical upstream models, reducing test execution time and improving efficiency.
+
+2. **`valid_event_name` Test Added**
+   - **Purpose**: A new generic test `valid_event_name` has been added.
+   - **Details**: This test has been applied to the `fct_events` model to ensure event names conform to expected values.
+
+3. **`unit_test__dim_users` Test Added**
+   - **Purpose**: A unit test `unit_test__dim_users` has been added to validate the age calculation based on user acquisition date and birthdate.
+   - **Details**: The test checks inputs from the `stg_bingeflix__users` and `stg_bingeflix__subscriptions` models, ensuring the `age_at_acquisition` is calculated correctly for different users.
+
+
+### Project 4
